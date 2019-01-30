@@ -39,6 +39,7 @@ class Parser
      */
     public function parseHtml()
     {
+
         $object = str_get_html($this->html);
         if(count($object->find('.product-thumb'))) {
             foreach($object->find('.product-thumb') as $div) {
