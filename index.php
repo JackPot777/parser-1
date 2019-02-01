@@ -6,13 +6,14 @@ include_once "autoload.php";
 // 3. Разбор данных
 // 4. Сохрарение
 
-
 // 8. Шаг - присвоили ссылку
 $parser = new Parser('https://loskutskazka.ru/tkani-dlya-pechvorka/');
 // 9. Вызвали функцию скачивания
 $parser->downloadHtml();
 // 14. Вызовем фукцию парсинга
 $parser->parseHtml();
+
+$parser->saveData();
 
 // Что можно улучшить
 // 1. Улучшить автозагрузчик классов

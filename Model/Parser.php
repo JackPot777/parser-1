@@ -7,6 +7,8 @@ class Parser
     // 10. Шаг создали приватную переменную что бы сохранить сюда html код спаршеной страницы
     private $html;
 
+    private $data;
+
     /**
      * 7. Шаг создали конструктор и засетили переменную url
      *
@@ -39,22 +41,40 @@ class Parser
      */
     public function parseHtml()
     {
-
         $object = str_get_html($this->html);
         if(count($object->find('.product-thumb'))) {
             foreach($object->find('.product-thumb') as $div) {
-                echo $div->find('.caption a', 0)->innertext;
-                echo "<br />";
+                $data = [];
+                $data['name'] = $div->find('.caption a', 0)->innertext;
+                $this->addDataRow($data);
             }
         }
 
     }
 
     /**
-     * 13. Слздали публичную функцио сохроанение данных
+     * Закидываем спаршенные параметры (массив данных) элементом массива
+     *
+     * @param array $row
      */
-    public function saveData()
+    private function addDataRow(array $row)
     {
-        // TODO реализовать дома
+        $this->data[] = $row;
+    }
+
+    /**
+     * 13. Создали публичную функцио сохроанение данных
+     *
+     * @param string $fileName
+     */
+    public function saveData(string $fileName = 'export.csv')
+    {
+        $fp = fopen($fileName, 'w');
+
+        foreach ($this->data as $fields) {
+            fputcsv($fp, $fields, ";");
+        }
+
+        fclose($fp);
     }
 }
